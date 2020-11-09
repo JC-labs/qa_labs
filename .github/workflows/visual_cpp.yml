@@ -19,8 +19,8 @@ jobs:
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
-        7z x premake.zip -opremake
-        premake/premake5.exe vs2019
+        7z x premake.zip
+        ./premake5.exe vs2019
 
     - name: build
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x64
@@ -44,8 +44,8 @@ jobs:
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
-        7z x premake.zip -opremake
-        premake/premake5.exe vs2019
+        7z x premake.zip
+        ./premake5.exe vs2019
 
     - name: build
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x64
@@ -69,8 +69,8 @@ jobs:
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
-        7z x premake.zip -opremake
-        premake/premake5.exe vs2019
+        7z x premake.zip
+        ./premake5.exe vs2019
 
     - name: build
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=Win32
@@ -94,8 +94,8 @@ jobs:
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
-        7z x premake.zip -opremake
-        premake/premake5.exe vs2019
+        7z x premake.zip
+        ./premake5.exe vs2019
 
     - name: build
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=Win32
