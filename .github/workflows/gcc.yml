@@ -27,7 +27,7 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 vs2019
+        ./premake5 gmake2
 
     - name: build
       run: make config=x64_debug -C project
