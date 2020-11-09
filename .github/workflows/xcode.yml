@@ -25,4 +25,4 @@ jobs:
       run: xcodebuild -project project/lab_1/lab_1_test.xcodeproj -configuration debug -arch x86_64 -sdk macosx10.15
   
     - name: test
-      run: ./output/macosx_x64_debug/lab_1_test
+      run: ./output/macosx_debug/lab_1_test

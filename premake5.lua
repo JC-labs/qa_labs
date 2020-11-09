@@ -21,6 +21,7 @@ workspace "qa_labs"
         xcodebuildsettings {           
             ["CLANG_CXX_LANGUAGE_STANDARD"] = "c++2a";
         }
+        targetdir "output/%{cfg.system}_%{cfg.buildcfg}"
     
     filter "configurations:debug"
         defines { "DEBUG" }
