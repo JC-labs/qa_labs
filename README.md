@@ -13,7 +13,7 @@
 - Build application using selected tools:
     - on `windows`: open `project/*.sln` using `Visual Studio`
     - on `linux`: run `cd project && make && cd ..`
-    - on `macos`: open project directory using `XCode`
+    - on `macos`: open `project` directory using `XCode`
 - Run tests from `output/{configuration}/{filename}`
-    - for example `output/Release_x64/lab_1_test.exe`
+    - for example `output/window_x64_release/lab_1_test.exe`
 - Enjoy using the library in your projects :)

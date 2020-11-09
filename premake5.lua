@@ -1,8 +1,8 @@
 workspace "qa_labs"
-    configurations { "Debug", "Release" }
+    configurations { "debug", "release" }
     platforms { "x64", "x86" }
 
-    targetdir "output/%{cfg.buildcfg}_%{cfg.platform}"
+    targetdir "output/%{cfg.system}_%{cfg.platform}_%{cfg.buildcfg}"
     location "project"
 
     cppdialect "C++latest"
