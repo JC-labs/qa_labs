@@ -6,5 +6,5 @@ TEST_CASE("Successful test") {
 }
 
 TEST_CASE("Unsuccessful test") {
-	CHECK(!qal::hello());
+	WARN(!qal::hello());
 }
