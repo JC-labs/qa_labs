@@ -23,9 +23,9 @@ jobs:
 
     - name: premake 
       run: |
-        curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.zip
-        7z x premake.zip -opremake
-        premake/premake5.exe vs2019
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.tar.gz
+        7z x premake.tar.gz -opremake
+        premake/premake5 vs2019
 
     - name: build
       run: make config=x64_debug -C project
