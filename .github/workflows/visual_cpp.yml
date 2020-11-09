@@ -1,4 +1,4 @@
-name: Windows
+name: Microsoft Visual C++ (Windows)
 
 on: [push, pull_request]
 
@@ -73,7 +73,7 @@ jobs:
         premake/premake5.exe vs2019
 
     - name: build
-      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x86
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=Win32
       
     - name: test
       run: output/windows_x86_debug/lab_1_test.exe
@@ -98,7 +98,7 @@ jobs:
         premake/premake5.exe vs2019
 
     - name: build
-      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x86
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=Win32
       
     - name: test
       run: output/windows_x86_release/lab_1_test.exe
