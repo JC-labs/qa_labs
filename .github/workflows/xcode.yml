@@ -22,7 +22,7 @@ jobs:
         ./premake5 xcode4
 
     - name: build
-      run: xcodebuild -configuration debug -workspace project/qa_labs.xcworkspace -scheme lab_1_test -sdk macosx10.15
+      run: xcodebuild -configuration debug -workspace project/qa_labs.xcworkspace -scheme lab_1_test -sdk macosx10.15 -arch x86_64
       
     - name: test
       run: ./output/linux_x64_debug/lab_1_test
