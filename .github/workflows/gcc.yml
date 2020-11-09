@@ -30,7 +30,7 @@ jobs:
         ./premake5 gmake2
 
     - name: build
-      run: make config=x64_debug -C project
+      run: make config=debug_x64 -C project
       
     - name: test
       run: |
