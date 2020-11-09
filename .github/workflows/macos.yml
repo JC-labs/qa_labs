@@ -13,6 +13,11 @@ jobs:
       with:
         submodules: recursive
 
+    - name: setup
+      run: |
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+
     - name: premake 
       run: |
         curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-macosx.tar.gz
