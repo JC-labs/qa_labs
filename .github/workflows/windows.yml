@@ -13,6 +13,9 @@ jobs:
       with:
         submodules: recursive
 
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
@@ -20,7 +23,6 @@ jobs:
         premake5.exe vs2019
 
     - name: build
-      uses: microsoft/setup-msbuild@v1.0.2
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x64
       
     - name: test
@@ -36,6 +38,9 @@ jobs:
       with:
         submodules: recursive
 
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
@@ -43,7 +48,6 @@ jobs:
         premake5.exe vs2019
 
     - name: build
-      uses: microsoft/setup-msbuild@v1.0.2
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x64
       
     - name: test
@@ -59,6 +63,9 @@ jobs:
       with:
         submodules: recursive
 
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
@@ -66,7 +73,6 @@ jobs:
         premake5.exe vs2019
 
     - name: build
-      uses: microsoft/setup-msbuild@v1.0.2
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x86
       
     - name: test
@@ -82,6 +88,9 @@ jobs:
       with:
         submodules: recursive
 
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
     - name: premake 
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
@@ -89,7 +98,6 @@ jobs:
         premake5.exe vs2019
 
     - name: build
-      uses: microsoft/setup-msbuild@v1.0.2
       run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x86
       
     - name: test
