@@ -22,7 +22,8 @@ jobs:
         ./premake5 xcode4
 
     - name: build
-      run: xcodebuild ONLY_ACTIVE_ARCH=NO -configuration debug -workspace project/qa_labs.xcworkspace -scheme lab_1 -sdk macosx10.15 -arch x86_64
+      run: xcodebuild -project project/lab_1/lab_1_test.xcodeproj -configuration debug -sdk macosx10.15 -arch x86_64
+      #ONLY_ACTIVE_ARCH=NO -configuration debug -workspace project/qa_labs.xcworkspace -scheme lab_1 -sdk macosx10.15 -arch x86_64
       
     - name: test
       run: ./output/linux_x64_debug/lab_1_test
