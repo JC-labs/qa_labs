@@ -1,0 +1,39 @@
+name: GNU GCC (Ubuntu)
+
+on: [push, pull_request]
+
+
+jobs:
+  lab_1_x64_debug:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
+        sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
+
+    - name: premake 
+      run: |
+        curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.zip
+        7z x premake.zip -opremake
+        premake/premake5.exe vs2019
+
+    - name: build
+      run: make config=x64_debug -C project
+      
+    - name: test
+      run: |
+      ls
+      cd ouput
+      ls
+      cd ..
+      ./output/linux_x64_debug/lab_1_test
