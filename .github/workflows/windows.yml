@@ -1,0 +1,97 @@
+name: Windows
+
+on: [push, pull_request]
+
+
+jobs:
+  checkout:
+    runs-on: windows_latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: premake
+      run: premake5 vs2019
+
+
+  setup_msbuild:
+    runs-on: windows_latest
+
+    steps:
+    - name: setup msbuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+
+  build_x64_debug:
+    runs-on: windows_latest
+    needs: [checkout, setup_msbuild]
+
+    steps:
+    - name: run msbuild
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x64
+
+
+  build_x64_release:
+    runs-on: windows_latest
+    needs: [checkout, setup_msbuild]
+
+    steps:
+    - name: run msbuild
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x64
+
+
+  build_x86_debug:
+    runs-on: windows_latest
+    needs: [checkout, setup_msbuild]
+
+    steps:
+    - name: run msbuild
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x86
+
+
+  build_x86_release:
+    runs-on: windows_latest
+    needs: [checkout, setup_msbuild]
+
+    steps:
+    - name: run msbuild
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x86
+
+
+  lab_1_test_x64_debug:
+    runs-on: windows_latest
+    needs: [build_x64_debug]
+
+    steps:
+    - name: run tests
+      run: output/windows_x64_debug/lab_1_test.exe
+
+
+  lab_1_test_x64_release:
+    runs-on: windows_latest
+    needs: [build_x64_release]
+
+    steps:
+    - name: run tests
+      run: output/windows_x64_release/lab_1_test.exe
+      
+
+  lab_1_test_x86_debug:
+    runs-on: windows_latest
+    needs: [build_x86_debug]
+
+    steps:
+    - name: run tests
+      run: output/windows_x86_debug/lab_1_test.exe
+
+
+  lab_1_test_x86_release:
+    runs-on: windows_latest
+    needs: [build_x86_release]
+
+    steps:
+    - name: run tests
+      run: output/windows_x86_release/lab_1_test.exe
