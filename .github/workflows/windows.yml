@@ -20,9 +20,8 @@ jobs:
       run: curl -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
     
     - name: unzip premake
-      uses: TonyBogdanov/zip@1.0
-      with:
-        args: unzip -qq ./premake.zip -d ./premake 
+      run: "Expand-Archive -Force premake.zip premake"
+        shell: powershell
 
 
   checkout:
