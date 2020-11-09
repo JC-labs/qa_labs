@@ -16,18 +16,18 @@ workspace "qa_labs"
         ["source"] = "**.cpp"
     }
     
-    filter "configurations:Debug"
+    filter "configurations:debug"
         defines { "DEBUG" }
         symbols "On"
         optimize "Debug"
 
-    filter "configurations:Release"
+    filter "configurations:release"
         defines { "NDEBUG" }
         optimize "Full"
 
     filter "platforms:x86" architecture "x86"
 
-    filter "platforms:x64" architecture "x64"
+    filter "platforms:x64" architecture "x86_64"
         
     filter { "system:windows", "action:vs*"}
         flags { "MultiProcessorCompile", "NoMinimalRebuild" }
