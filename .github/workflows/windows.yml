@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: download premake
-      run: wget https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip -O premake.zip
+      run: curl -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
     
     - name: unzip premake
       uses: TonyBogdanov/zip@1.0
