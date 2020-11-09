@@ -20,7 +20,7 @@ jobs:
       run: curl -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
     
     - name: unzip premake
-      run: tar -xf archive.zip
+      run: tar -xf premake.zip
 
 
   checkout:
@@ -34,7 +34,7 @@ jobs:
         submodules: recursive
 
     - name: premake
-      run: premake/premake5.exe vs2019
+      run: premake5.exe vs2019
 
 
   build_x64_debug:
