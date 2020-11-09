@@ -16,6 +16,12 @@ workspace "qa_labs"
         ["source"] = "**.cpp"
     }
     
+    -- temporary fix
+    filter "action:xcode*"
+        xcodebuildsettings {           
+            ["CLANG_CXX_LANGUAGE_STANDARD"] = "c++2a";
+        }
+    
     filter "configurations:debug"
         defines { "DEBUG" }
         symbols "On"
