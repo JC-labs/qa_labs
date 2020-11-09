@@ -4,8 +4,30 @@ on: [push, pull_request]
 
 
 jobs:
+  setup_msbuild:
+    runs-on: windows-latest
+
+    steps:
+    - name: setup msbuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+
+  setup_premake:
+    runs-on: windows-latest
+
+    steps:
+    - name: download premake
+      run: wget https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip -O premake.zip
+    
+    - name: unzip premake
+      uses: TonyBogdanov/zip@1.0
+      with:
+        args: unzip -qq ./premake.zip -d ./premake 
+
+
   checkout:
     runs-on: windows-latest
+    needs: [setup_premake]
 
     steps:
     - name: checkout
@@ -14,15 +36,7 @@ jobs:
         submodules: recursive
 
     - name: premake
-      run: premake5 vs2019
-
-
-  setup_msbuild:
-    runs-on: windows-latest
-
-    steps:
-    - name: setup msbuild
-      uses: microsoft/setup-msbuild@v1.0.2
+      run: premake/premake5.exe vs2019
 
 
   build_x64_debug:
