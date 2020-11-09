@@ -1,0 +1,168 @@
+name: LLVM Clang (Ubuntu)
+
+on: [push, pull_request]
+
+
+jobs:
+  lab_1_x64_debug:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      run: |
+        sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 40
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 40
+        
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+        sudo apt-get install -y clang-11 lld-11
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
+        sudo update-alternatives --set cc /usr/bin/clang
+        sudo update-alternatives --set c++ /usr/bin/clang++
+
+    - name: premake 
+      run: |
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.tar.gz
+        7z x premake.tar.gz
+        7z x premake.tar
+        chmod 777 premake5
+        ./premake5 gmake2
+
+    - name: build
+      run: make config=debug_x64 -C project
+      
+    - name: test
+      run: ./output/linux_x64_debug/lab_1_test
+
+
+  lab_1_x64_release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      run: |
+        sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 40
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 40
+        
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+        sudo apt-get install -y clang-11 lld-11
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
+        sudo update-alternatives --set cc /usr/bin/clang
+        sudo update-alternatives --set c++ /usr/bin/clang++
+
+    - name: premake 
+      run: |
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.tar.gz
+        7z x premake.tar.gz
+        7z x premake.tar
+        chmod 777 premake5
+        ./premake5 gmake2
+
+    - name: build
+      run: make config=release_x64 -C project
+      
+    - name: test
+      run: ./output/linux_x64_release/lab_1_test
+
+      
+  lab_1_x86_debug:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      run: |
+        sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 40
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 40
+
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+        sudo apt-get install -y clang-11 lld-11
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
+        sudo update-alternatives --set cc /usr/bin/clang
+        sudo update-alternatives --set c++ /usr/bin/clang++
+
+    - name: premake 
+      run: |
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.tar.gz
+        7z x premake.tar.gz
+        7z x premake.tar
+        chmod 777 premake5
+        ./premake5 gmake2
+
+    - name: build
+      run: make config=debug_x86 -C project
+      
+    - name: test
+      run: ./output/linux_x86_debug/lab_1_test
+
+
+  lab_1_x86_release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      run: |
+        sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 40
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 40
+
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+        sudo apt-get install -y clang-11 lld-11
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
+        sudo update-alternatives --set cc /usr/bin/clang
+        sudo update-alternatives --set c++ /usr/bin/clang++
+
+    - name: premake 
+      run: |
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-linux.tar.gz
+        7z x premake.tar.gz
+        7z x premake.tar
+        chmod 777 premake5
+        ./premake5 gmake2
+
+    - name: build
+      run: make config=release_x86 -C project
+      
+    - name: test
+      run: ./output/linux_x86_release/lab_1_test

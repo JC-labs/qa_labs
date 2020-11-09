@@ -1,0 +1,104 @@
+name: Microsoft Visual C++ (Windows)
+
+on: [push, pull_request]
+
+
+jobs:
+  lab_1_x64_debug:
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: premake 
+      run: |
+        curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
+        7z x premake.zip
+        ./premake5.exe vs2019
+
+    - name: build
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x64
+      
+    - name: test
+      run: output/windows_x64_debug/lab_1_test.exe
+
+      
+  lab_1_x64_release:
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: premake 
+      run: |
+        curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
+        7z x premake.zip
+        ./premake5.exe vs2019
+
+    - name: build
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x64
+      
+    - name: test
+      run: output/windows_x64_release/lab_1_test.exe
+
+      
+  lab_1_x86_debug:
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: premake 
+      run: |
+        curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
+        7z x premake.zip
+        ./premake5.exe vs2019
+
+    - name: build
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=Win32
+      
+    - name: test
+      run: output/windows_x86_debug/lab_1_test.exe
+
+      
+  lab_1_x86_release:
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: setup
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: premake 
+      run: |
+        curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
+        7z x premake.zip
+        ./premake5.exe vs2019
+
+    - name: build
+      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=Win32
+      
+    - name: test
+      run: output/windows_x86_release/lab_1_test.exe
