@@ -1,4 +1,4 @@
-name: Apple Clang (MacOS)
+name: Xcode (MacOS)
 
 on: [push, pull_request]
 
@@ -13,21 +13,19 @@ jobs:
       with:
         submodules: recursive
 
-    - name: setup
-      run: |
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
-
     - name: premake 
       run: |
         curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-macosx.tar.gz
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 gmake2
+        ./premake5 xcode4
 
     - name: build
-      run: make config=debug_x64 -C project
+      run: |
+        cd project
+        xcodebuild -configuration debug -arch x64 build
+        cd ..
       
     - name: test
       run: ./output/linux_x64_debug/lab_1_test
