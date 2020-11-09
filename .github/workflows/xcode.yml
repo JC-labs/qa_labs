@@ -1,0 +1,52 @@
+name: Xcode (MacOS)
+
+on: [push, pull_request]
+
+
+jobs:
+  lab_1_x64_debug:
+    runs-on: macos-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: premake 
+      run: |
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-macosx.tar.gz
+        7z x premake.tar.gz
+        7z x premake.tar
+        chmod 777 premake5
+        ./premake5 xcode4
+
+    - name: build
+      run: xcodebuild -project project/lab_1/lab_1_test.xcodeproj -configuration debug -arch x86_64 -sdk macosx10.15
+  
+    - name: test
+      run: ./output/macosx_debug/lab_1_test
+      
+      
+  lab_1_x64_release:
+    runs-on: macos-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: premake 
+      run: |
+        curl -L -o premake.tar.gz https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-macosx.tar.gz
+        7z x premake.tar.gz
+        7z x premake.tar
+        chmod 777 premake5
+        ./premake5 xcode4
+
+    - name: build
+      run: xcodebuild -project project/lab_1/lab_1_test.xcodeproj -configuration release -arch x86_64 -sdk macosx10.15
+  
+    - name: test
+      run: ./output/macosx_release/lab_1_test
