@@ -21,6 +21,8 @@ jobs:
         sudo apt-get install -y clang-11 lld-11
         sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
         sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
         sudo update-alternatives --set cc /usr/bin/clang
         sudo update-alternatives --set c++ /usr/bin/clang++
 
