@@ -23,9 +23,9 @@ jobs:
 
     - name: build
       run: |
-        cd project
+        cd project/lab_1
         xcodebuild -configuration debug -arch x64 build
-        cd ..
+        cd ../..
       
     - name: test
       run: ./output/linux_x64_debug/lab_1_test
