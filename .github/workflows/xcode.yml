@@ -21,13 +21,11 @@ jobs:
         ./premake5 xcode4 --output_directory=output
 
     - name: build
-      run: |
-        echo "SKIP! To be returned after AppleClang update (with concepts support)"
+      run: echo "SKIP! To be returned after AppleClang update (with concepts support)"
         # xcodebuild -project build/test_exception_manager.xcodeproj -configuration debug -arch x86_64 -sdk macosx10.15
   
     - name: test
-      run:|
-        echo "SKIP! To be returned after AppleClang update (with concepts support)"
+      run: echo "SKIP! To be returned after AppleClang update (with concepts support)"
         # ./output/test_exception_manager
       
   release_x64:
@@ -48,11 +46,9 @@ jobs:
         ./premake5 xcode4 --output_directory=output
 
     - name: build
-      run: |
-        echo "SKIP! To be returned after AppleClang update (with concepts support)"
+      run: echo "SKIP! To be returned after AppleClang update (with concepts support)"
         # xcodebuild -project build/test_exception_manager.xcodeproj -configuration release -arch x86_64 -sdk macosx10.15
   
     - name: test
-      run: |
-        echo "SKIP! To be returned after AppleClang update (with concepts support)"
+      run: echo "SKIP! To be returned after AppleClang update (with concepts support)"
         # ./output/test_exception_manager
