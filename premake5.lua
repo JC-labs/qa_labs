@@ -66,7 +66,7 @@ project "exception_manager"
         "source/exception_manager/**.cpp"
     }
 
-project "exception_manager_test"
+project "test_exception_manager"
     kind "ConsoleApp"
     language "C++"
     includedirs "include/exception_manager"
