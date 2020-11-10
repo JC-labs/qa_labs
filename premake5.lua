@@ -2,8 +2,19 @@ workspace "qa_labs"
     configurations { "debug", "release" }
     platforms { "x64", "x86" }
 
-    targetdir "output/%{cfg.system}_%{cfg.platform}_%{cfg.buildcfg}"
-    location "project"
+    newoption {
+        trigger = "output_directory",
+        description = "A directory path for output binaries to be moved to.",
+        value = "path"
+    }
+    newoption {
+        trigger = "build_directory",
+        description = "A directory path for temporary files to be generated in.",
+        value = "path"
+    }
+
+    targetdir (_OPTIONS["output_directory"] or "output/%{cfg.system}_%{cfg.platform}_%{cfg.buildcfg}")
+    location (_OPTIONS["build_directory"] or "build")
 
     cppdialect "C++latest"
     flags "FatalWarnings"
@@ -21,7 +32,9 @@ workspace "qa_labs"
         xcodebuildsettings {           
             ["CLANG_CXX_LANGUAGE_STANDARD"] = "c++2a";
         }
-        targetdir "output/%{cfg.system}_%{cfg.buildcfg}"
+        targetdir(_OPTIONS["output_directory"] or "output/%{cfg.system}_%{cfg.buildcfg}")
+    filter "action:gmake*"
+        buildoptions "-std=c++2a"
     
     filter "configurations:debug"
         defines { "DEBUG" }
@@ -42,31 +55,31 @@ workspace "qa_labs"
 
     filter {}
 
-project "lab_1"
+project "exception_manager"
     kind "StaticLib"
     language "C++"
-    location "project/lab_1"
-    includedirs "include/lab_1"
+    includedirs "include/exception_manager"
+    location (_OPTIONS["build_directory"] or "build")
 
     files { 
-        "include/lab_1/**.hpp", 
-        "source/lab_1/**.cpp"
+        "include/exception_manager/**.hpp", 
+        "source/exception_manager/**.cpp"
     }
 
-project "lab_1_test"
+project "test_exception_manager"
     kind "ConsoleApp"
     language "C++"
-    location "project/lab_1"
-    includedirs "include/lab_1"
+    includedirs "include/exception_manager"
+    location (_OPTIONS["build_directory"] or "build")
 
     require "script/include_doctest"
     include_doctest()
 
-    links "lab_1"
+    links "exception_manager"
 
     files {
-        "test/lab_1/**.hpp",
-        "test/lab_1/**.cpp",
+        "test/exception_manager/**.hpp",
+        "test/exception_manager/**.cpp",
         "test/main.cpp"
     }
 

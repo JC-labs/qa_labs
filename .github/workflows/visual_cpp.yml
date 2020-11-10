@@ -2,9 +2,8 @@ name: Microsoft Visual C++ (Windows)
 
 on: [push, pull_request]
 
-
 jobs:
-  lab_1_x64_debug:
+  debug_x64:
     runs-on: windows-latest
 
     steps:
@@ -20,20 +19,19 @@ jobs:
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
         7z x premake.zip
-        ./premake5.exe vs2019
+        ./premake5.exe vs2019 --output_directory=output
 
     - name: build
-      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=x64
+      run: MSBuild.exe build/qa_labs.sln -p:Configuration=Debug -p:Platform=x64
       
     - name: test
-      run: output/windows_x64_debug/lab_1_test.exe
+      run: output/test_exception_manager.exe
 
-      
-  lab_1_x64_release:
+  release_x64:
     runs-on: windows-latest
 
     steps:
-    - name: checkout repo
+    - name: checkout
       uses: actions/checkout@v1
       with:
         submodules: recursive
@@ -45,20 +43,19 @@ jobs:
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
         7z x premake.zip
-        ./premake5.exe vs2019
+        ./premake5.exe vs2019 --output_directory=output
 
     - name: build
-      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=x64
+      run: MSBuild.exe build/qa_labs.sln -p:Configuration=Release -p:Platform=x64
       
     - name: test
-      run: output/windows_x64_release/lab_1_test.exe
+      run: output/test_exception_manager.exe
 
-      
-  lab_1_x86_debug:
+  debug_x86:
     runs-on: windows-latest
 
     steps:
-    - name: checkout repo
+    - name: checkout
       uses: actions/checkout@v1
       with:
         submodules: recursive
@@ -70,20 +67,19 @@ jobs:
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
         7z x premake.zip
-        ./premake5.exe vs2019
+        ./premake5.exe vs2019 --output_directory=output
 
     - name: build
-      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Debug -p:Platform=Win32
+      run: MSBuild.exe build/qa_labs.sln -p:Configuration=Debug -p:Platform=Win32
       
     - name: test
-      run: output/windows_x86_debug/lab_1_test.exe
+      run: output/test_exception_manager.exe
 
-      
-  lab_1_x86_release:
+  release_x86:
     runs-on: windows-latest
 
     steps:
-    - name: checkout repo
+    - name: checkout
       uses: actions/checkout@v1
       with:
         submodules: recursive
@@ -95,10 +91,10 @@ jobs:
       run: |
         curl -L -o premake.zip https://github.com/premake/premake-core/releases/download/v5.0.0-alpha15/premake-5.0.0-alpha15-windows.zip
         7z x premake.zip
-        ./premake5.exe vs2019
+        ./premake5.exe vs2019 --output_directory=output
 
     - name: build
-      run: MSBuild.exe project/qa_labs.sln -p:Configuration=Release -p:Platform=Win32
+      run: MSBuild.exe build/qa_labs.sln -p:Configuration=Release -p:Platform=Win32
       
     - name: test
-      run: output/windows_x86_release/lab_1_test.exe
+      run: output/test_exception_manager.exe

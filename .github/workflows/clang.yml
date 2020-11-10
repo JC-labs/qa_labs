@@ -2,9 +2,8 @@ name: LLVM Clang (Ubuntu)
 
 on: [push, pull_request]
 
-
 jobs:
-  lab_1_x64_debug:
+  debug_x64:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,16 +35,15 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 gmake2
+        ./premake5 gmake2 --output_directory=output
 
     - name: build
-      run: make config=debug_x64 -C project
+      run: make config=debug_x64 -C build
       
     - name: test
-      run: ./output/linux_x64_debug/lab_1_test
+      run: ./output/test_exception_manager
 
-
-  lab_1_x64_release:
+  release_x64:
     runs-on: ubuntu-latest
 
     steps:
@@ -77,16 +75,15 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 gmake2
+        ./premake5 gmake2 --output_directory=output
 
     - name: build
-      run: make config=release_x64 -C project
+      run: make config=release_x64 -C build
       
     - name: test
-      run: ./output/linux_x64_release/lab_1_test
+      run: ./output/test_exception_manager
 
-      
-  lab_1_x86_debug:
+  debug_x86:
     runs-on: ubuntu-latest
 
     steps:
@@ -100,7 +97,7 @@ jobs:
         sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 40
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 40
-
+        
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get update
         sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
@@ -118,16 +115,15 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 gmake2
+        ./premake5 gmake2 --output_directory=output
 
     - name: build
-      run: make config=debug_x86 -C project
+      run: make config=debug_x86 -C build
       
     - name: test
-      run: ./output/linux_x86_debug/lab_1_test
+      run: ./output/test_exception_manager
 
-
-  lab_1_x86_release:
+  release_x86:
     runs-on: ubuntu-latest
 
     steps:
@@ -141,7 +137,7 @@ jobs:
         sudo apt-get install -y gcc-10 g++-10 gcc-10-multilib g++-10-multilib
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 40
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 40
-
+        
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get update
         sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
@@ -159,10 +155,10 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 gmake2
+        ./premake5 gmake2 --output_directory=output
 
     - name: build
-      run: make config=release_x86 -C project
+      run: make config=release_x86 -C build
       
     - name: test
-      run: ./output/linux_x86_release/lab_1_test
+      run: ./output/test_exception_manager
