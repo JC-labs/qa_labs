@@ -81,7 +81,7 @@ inline auto qal::exception_manager_interface<crtp_type, level_type, supported_ex
 
 template<typename crtp_type, typename level_type, typename ...supported_exception_types>
 inline bool qal::exception_manager_interface<crtp_type, level_type, supported_exception_types...>::serialize(std::filesystem::path const &location) {
-	std::filesystem::create_directories(location.parent_path());
+	std::filesystem::create_directories(std::filesystem::absolute(location).parent_path());
 	std::ofstream stream(location);
 	if (!stream)
 		return false;
