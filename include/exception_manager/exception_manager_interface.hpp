@@ -2,6 +2,7 @@
 #include <array>
 #include <list>
 #include <mutex>
+#include <ostream>
 #include <shared_mutex>
 #include <variant>
 
@@ -61,7 +62,7 @@ template<typename crtp_type, typename level_type, typename ...supported_exceptio
 template<typename exception_type>
 inline level_type const &qal::exception_manager_interface<crtp_type, level_type, supported_exception_types...>::push(exception_type &&exception)
 requires (std::disjunction<std::is_same<exception_type, supported_exception_types>...>::value) {
-	auto &level = check<exception_type>();
+	auto const &level = check<exception_type>();
 	static_cast<crtp_type *>(this)->on_push(exception, level);
 	queue.emplace_back(exception);
 	return level;
@@ -87,4 +88,34 @@ namespace qal {
 
 	template <typename crtp_type, typename ...supported_exception_types>
 	using int_level_exception_manager_interface = exception_manager_interface<crtp_type, size_t, supported_exception_types...>;
+}
+inline std::ostream &operator<<(std::ostream &stream, qal::exception_level level) {
+	switch (level) {
+		case qal::exception_level::critical: return stream << "critical";
+		case qal::exception_level::major: return stream << "major";
+		case qal::exception_level::minor: return stream << "minor";
+		case qal::exception_level::negligible: return stream << "negligible";
+		default: return stream << "unsupported";
+	}
+}
+
+namespace qal {
+	template <typename on_push_callable_type, typename ...supported_exception_types>
+	class callable_exception_manager : public two_level_exception_manager_interface<callable_exception_manager<on_push_callable_type, supported_exception_types...>, supported_exception_types...> {
+		friend two_level_exception_manager_interface<callable_exception_manager<on_push_callable_type, supported_exception_types...>, supported_exception_types...>;
+	public:
+		using two_level_exception_manager_interface<callable_exception_manager<on_push_callable_type, supported_exception_types...>, supported_exception_types...>::two_level_exception_manager_interface;
+		inline explicit callable_exception_manager(on_push_callable_type on_push_callable)
+			: two_level_exception_manager_interface<callable_exception_manager<on_push_callable_type, supported_exception_types...>, supported_exception_types...>()
+			, on_push_callable(on_push_callable) {}
+
+	protected:
+		template <typename exception_type>
+		void on_push(exception_type const &exception, bool const &severity) {
+			on_push_callable(exception, severity);
+		}
+
+	protected:
+		on_push_callable_type on_push_callable;
+	};
 }
