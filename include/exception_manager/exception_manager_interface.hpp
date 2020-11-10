@@ -1,5 +1,7 @@
 #pragma once
 #include <array>
+#include <filesystem>
+#include <fstream>
 #include <list>
 #include <mutex>
 #include <ostream>
@@ -26,6 +28,9 @@ namespace qal {
 		inline std::list<std::variant<supported_exception_types...>> const &operator*() const { return queue; }
 		inline std::list<std::variant<supported_exception_types...>> const *operator->() const { return &queue; }
 		auto pop();
+
+		bool serialize(std::filesystem::path const &location);
+		bool deserialize(std::filesystem::path const &location);
 
 	protected:
 		std::array<level_type, sizeof...(supported_exception_types)> levels;
@@ -74,6 +79,44 @@ inline auto qal::exception_manager_interface<crtp_type, level_type, supported_ex
 	return out;
 }
 
+template<typename crtp_type, typename level_type, typename ...supported_exception_types>
+inline bool qal::exception_manager_interface<crtp_type, level_type, supported_exception_types...>::serialize(std::filesystem::path const &location) {
+	std::filesystem::create_directories(std::filesystem::absolute(location).parent_path());
+	std::ofstream stream(location);
+	if (!stream)
+		return false;
+
+	stream << typeid(*this).name() << '\n';
+	stream << typeid(*this).hash_code() << '\n';
+	{
+		std::shared_lock _(level_mutex);
+		for (auto const &level : levels)
+			stream << level << ' ';
+	}
+	return true;
+}
+
+template<typename crtp_type, typename level_type, typename ...supported_exception_types>
+inline bool qal::exception_manager_interface<crtp_type, level_type, supported_exception_types...>::deserialize(std::filesystem::path const &location) {
+	std::ifstream stream(location);
+	if (!stream)
+		return false;
+
+	std::string temp;
+	std::getline(stream, temp);
+	if (temp != typeid(*this).name())
+		return false;
+	std::getline(stream, temp);
+	if (temp != std::to_string(typeid(*this).hash_code()))
+		return false;
+	{
+		std::shared_lock _(level_mutex);
+		for (auto &level : levels)
+			stream >> level;
+	}
+	return true;
+}
+
 namespace qal {
 	template <typename crtp_type, typename ...supported_exception_types>
 	using two_level_exception_manager_interface = exception_manager_interface<crtp_type, bool, supported_exception_types...>;
@@ -89,7 +132,7 @@ namespace qal {
 	template <typename crtp_type, typename ...supported_exception_types>
 	using int_level_exception_manager_interface = exception_manager_interface<crtp_type, size_t, supported_exception_types...>;
 }
-inline std::ostream &operator<<(std::ostream &stream, qal::exception_level level) {
+inline std::ostream &operator<<(std::ostream &stream, qal::exception_level const &level) {
 	switch (level) {
 		case qal::exception_level::critical: return stream << "critical";
 		case qal::exception_level::major: return stream << "major";
@@ -97,6 +140,22 @@ inline std::ostream &operator<<(std::ostream &stream, qal::exception_level level
 		case qal::exception_level::negligible: return stream << "negligible";
 		default: return stream << "unsupported";
 	}
+}
+inline std::istream &operator>>(std::istream &stream, qal::exception_level &level) {
+	std::string temp;
+	stream >> temp;
+	if (temp == "critical")
+		level = qal::exception_level::critical;
+	else if (temp == "major")
+		level = qal::exception_level::major;
+	else if (temp == "minor")
+		level = qal::exception_level::minor;
+	else if (temp == "negligible")
+		level = qal::exception_level::negligible;
+	else {
+		// error!
+	}
+	return stream;
 }
 
 namespace qal {
