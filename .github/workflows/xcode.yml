@@ -2,9 +2,8 @@ name: Xcode (MacOS)
 
 on: [push, pull_request]
 
-
 jobs:
-  lab_1_x64_debug:
+  debug_x64:
     runs-on: macos-latest
 
     steps:
@@ -19,16 +18,15 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 xcode4
+        ./premake5 xcode4 --output_directory=output
 
     - name: build
-      run: xcodebuild -project project/lab_1/lab_1_test.xcodeproj -configuration debug -arch x86_64 -sdk macosx10.15
+      run: xcodebuild -project build/exception_manager/test_exception_manager.xcodeproj -configuration debug -arch x86_64 -sdk macosx10.15
   
     - name: test
-      run: ./output/macosx_debug/lab_1_test
+      run: ./output/test_exception_manager
       
-      
-  lab_1_x64_release:
+  release_x64:
     runs-on: macos-latest
 
     steps:
@@ -43,10 +41,10 @@ jobs:
         7z x premake.tar.gz
         7z x premake.tar
         chmod 777 premake5
-        ./premake5 xcode4
+        ./premake5 xcode4 --output_directory=output
 
     - name: build
-      run: xcodebuild -project project/lab_1/lab_1_test.xcodeproj -configuration release -arch x86_64 -sdk macosx10.15
+      run: xcodebuild -project build/exception_manager/test_exception_manager.xcodeproj -configuration release -arch x86_64 -sdk macosx10.15
   
     - name: test
-      run: ./output/macosx_release/lab_1_test
+      run: ./output/test_exception_manager
